@@ -1,5 +1,4 @@
 import styles from '../styles/Home.module.css'
-
 import { useSession, signIn, signOut } from "next-auth/react"
 import { authOptions } from 'pages/api/auth/[...nextauth]'
 import { getServerSession } from "next-auth/next"
@@ -23,5 +22,14 @@ export default function Navbar() {
                 <button onClick={() => {signIn()}}>Sign In</button>
             </div>
         )
+    }
+}
+
+export async function getServerSideProps(context) {
+    const session = await getServerSession(context.req, context.res, authOptions)
+    return {
+        props: {
+            session
+        }
     }
 }

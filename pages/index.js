@@ -1,30 +1,33 @@
 import Head from 'next/head'
 import styles from '@/styles/Home.module.css'
-
 import { useRouter } from 'next/router'
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import axios from 'axios'
-
+import { prisma } from '../server/db/client'
 import { authOptions } from 'pages/api/auth/[...nextauth]'
 import { getServerSession } from "next-auth/next"
-
+import { useSession } from "next-auth/react"
 import Navbar from '../components/navbar'
 import Card from '../components/card'
 
-export default function Home({ posts }) {
+export default function Blog({ posts }) {
   const r = useRouter();
-
+  const { data: session } = useSession()
   const [content, setContent] = useState('');
   const [signInMessage, setSignInMessage] = useState('')
 
   const handleSubmit = async () => {
-
     const { data } = await axios.post('/api/posts', {
       content: content
     })
+    
+    // if(session) {
     console.log(data)
     setContent('')
     r.push('/')
+    // } else {
+    //   setSignInMessage('Please sign in to post')
+    // }
   }
 
   return (
@@ -39,7 +42,7 @@ export default function Home({ posts }) {
       <main className={styles.main}>
         <Navbar />
         <h1>Boring-ass Blog</h1>
-        <p className={styles.signInMessage}>{signInMessage}</p>
+        {/* <p className={styles.signInMessage}>{signInMessage}</p> */}
         <textarea className={styles.input} value={content} onChange={(event) => setContent(event.target.value)} placeholder="Write Something"/>
         <button onClick={() => {handleSubmit()} }>Submit</button>
           {
@@ -60,13 +63,16 @@ export default function Home({ posts }) {
 }
 
 export async function getServerSideProps() {
+  // const session = await getServerSession(context.req, context.res, authOptions)
   const posts = await prisma.post.findMany({
     orderBy: {
       createdAt: 'desc'
     }
   })
+
   return {
     props: {
+      // session,
       posts: JSON.parse(JSON.stringify(posts)),
     },
   }
