@@ -6,6 +6,8 @@
 }
 
 .cardCont {
+  display: flex;
+  flex-direction: column;
   width: 500px;
   padding: 1em;
   margin: 0.5em;
@@ -19,10 +21,9 @@
   margin: 0;
 }
 
-.cardCont > button {
-  position: absolute;
-  bottom: 0.5em;
-  right: 0.5em;
+.commentButtonCont {
+  display: flex;
+  justify-content: flex-end;
 }
 
 .commentCont {
@@ -36,6 +37,13 @@
 
 .commentCont > textarea {
   width: 75%;
+}
+
+.commentSection {
+  margin-top:1em ;
+  padding: .5em;
+  border: 1px solid #ccc;
+  border-radius: 5px;
 }
 
 .input {

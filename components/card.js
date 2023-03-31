@@ -1,7 +1,7 @@
 import styles from '../styles/Home.module.css'
 import { useState } from 'react'
 
-export default function Card({ content, date }){
+export default function Card({ content, date, onSubmit }){
     const [comment, openComment] = useState(false)
     const [text, setText] = useState('')
     
@@ -19,7 +19,12 @@ export default function Card({ content, date }){
             <p className={styles.date}>{date}</p>
             <p>{content}</p>
             {
-                comment == false ? <button onClick={()=>{handleComment()}}>Comment</button> 
+                comment == false ? 
+                <div className={styles.commentButtonCont}>
+                    <button onClick={()=>{handleComment()}}>
+                        Comment
+                    </button> 
+                </div>
             :
                 <div className={styles.commentCont}>
                     <textarea 
@@ -30,7 +35,9 @@ export default function Card({ content, date }){
                     <button onClick={()=>{handleSubmit()}}>Submit</button>
                 </div>
             }
-            
+            {/* <div className={styles.commentSection}>
+                this is a comment
+            </div> */}
         </div>
     )
 }
