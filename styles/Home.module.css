@@ -61,7 +61,10 @@
   border-bottom: 1px solid #ccc;
 }
 
-.navbar > a { margin: 1em; }
+.navbar > a { 
+  margin: 1em; 
+  text-decoration: none;
+}
 .navbar > button { margin: 1em; }
 
 .signInMessage {
